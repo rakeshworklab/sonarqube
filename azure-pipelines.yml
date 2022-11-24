@@ -30,9 +30,9 @@ parameters:
     displayName: selectrepo
     type: string
     values:
-      - sonarqube
-      - CRUDwithAngular
-stages:
+     - sonarqube
+     - CRUDwithAngular
+
 - stage: reposelection
   displayName: reposelection_executepowershellscript_sonarcloud_analysis 
   jobs:
