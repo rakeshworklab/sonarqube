@@ -14,33 +14,33 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-  steps:
-  #- checkout: self
-    #fetchDepth: 1
-  - task: NuGetToolInstaller@0
-    displayName: Use NuGet 4.4.1
-    inputs:
-      versionSpec: 4.4.1
-  - task: NuGetCommand@2
-    displayName: NuGet restore
-    inputs:
-      solution: $(BuildParameters.solution)
-  - task: SonarCloudPrepare@1
-    displayName: Prepare analysis on SonarCloud
-    inputs:
+steps:
+- checkout: self
+  fetchDepth: 1
+- task: NuGetToolInstaller@0
+  displayName: Use NuGet 4.4.1
+  inputs:
+    versionSpec: 4.4.1
+- task: NuGetCommand@2
+  displayName: NuGet restore
+  inputs:
+    solution: $(BuildParameters.solution)
+- task: SonarCloudPrepare@1
+  displayName: Prepare analysis on SonarCloud
+  inputs:
       SonarCloud: 1784740f-8b70-43d3-b617-ac24af3cfa56
       organization: rakeshsonarlab
       projectKey: rakeshworklab_sonarqube
       projectName: sonarqube
-  - task: VSBuild@1
-    displayName: Build solution **\*.sln
-    inputs:
+- task: VSBuild@1
+  displayName: Build solution **\*.sln
+  inputs:
       solution: $(BuildParameters.solution)
       platform: $(BuildPlatform)
       configuration: $(BuildConfiguration)
-  - task: VSTest@2
-    displayName: VsTest - testAssemblies
-    inputs:
+- task: VSTest@2
+  displayName: VsTest - testAssemblies
+  inputs:
       testAssemblyVer2: >-
         **\$(BuildConfiguration)\*test*.dll
 
@@ -48,8 +48,8 @@ variables:
       codeCoverageEnabled: true
       platform: $(BuildPlatform)
       configuration: $(BuildConfiguration)
-  - task: SonarCloudAnalyze@1
-    displayName: Run Code Analysis
-  - task: SonarCloudPublish@1
-    displayName: Publish Quality Gate Result
+- task: SonarCloudAnalyze@1
+  displayName: Run Code Analysis
+- task: SonarCloudPublish@1
+  displayName: Publish Quality Gate Result
 ...
