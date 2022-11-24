@@ -1,0 +1,84 @@
+#tasks covered
+#creating pipeline parameters to select the required repo 
+#execute the powershell script to find content between strings
+#building a .net project and analysising the code on sonarcloud 
+
+trigger:
+- master
+
+variables:
+- name: BuildParameters.solution
+  value: '**\*.sln'
+name: $(date:yyyyMMdd)$(rev:.r)
+jobs:
+- job: Job_1
+  displayName: Agent job 1
+  pool:
+    vmImage: windows-latest
+resources:
+  repositories:
+  - repository: sonarqube
+    type: github
+    endpoint: rakeshworklab
+    name: rakeshworklab/sonarqube
+  - repository: CRUDwithAngular
+    type: github
+    endpoint: rakeshworklab
+    name: rakeshworklab/CRUDwithAngular
+parameters:
+  - name: selectrepo
+    displayName: selectrepo
+    type: string
+    values:
+      - sonarqube
+      - CRUDwithAngular
+stages:
+- stage: reposelection
+  displayName: reposelection_executepowershellscript_sonarcloud_analysis 
+  jobs:
+  - job: Checkout
+    steps:
+    - checkout: ${{parameters.selectrepo}}
+    #- script: dir $(Build.SourcesDirectory)
+      steps:
+         - powershell: 
+         - task: PowerShell@2
+           inputs:
+             filePath: 'powershell.ps1'
+
+  - task: NuGetToolInstaller@0
+    displayName: Use NuGet 4.4.1
+    inputs:
+      versionSpec: 4.4.1
+  - task: NuGetCommand@2
+    displayName: NuGet restore
+    inputs:
+      solution: $(BuildParameters.solution)
+  - task: SonarCloudPrepare@1
+    displayName: Prepare analysis on SonarCloud
+    inputs:
+      SonarCloud: 1784740f-8b70-43d3-b617-ac24af3cfa56
+      organization: rakeshsonarlab
+      projectKey: rakeshworklab_sonarqube
+      projectName: sonarqube
+  - task: VSBuild@1
+    displayName: Build solution **\*.sln
+    inputs:
+      solution: $(BuildParameters.solution)
+      platform: $(BuildPlatform)
+      configuration: $(BuildConfiguration)
+  - task: VSTest@2
+    displayName: VsTest - testAssemblies
+    inputs:
+      testAssemblyVer2: >-
+        **\$(BuildConfiguration)\*test*.dll
+
+        !**\obj\**
+      codeCoverageEnabled: true
+      platform: $(BuildPlatform)
+      configuration: $(BuildConfiguration)
+  - task: SonarCloudAnalyze@1
+    displayName: Run Code Analysis
+  - task: SonarCloudPublish@1
+    displayName: Publish Quality Gate Result
+...
