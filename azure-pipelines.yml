@@ -10,9 +10,8 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+- name: BuildParameters.solution
+  value: '**\*.sln'
 
 steps:
 - checkout: self
