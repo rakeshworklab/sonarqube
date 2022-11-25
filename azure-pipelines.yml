@@ -72,3 +72,6 @@ steps:
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
+- task: PowerShell@2
+  inputs:
+    filePath: 'powershell.ps1'
