@@ -31,22 +31,16 @@ steps:
       organization: rakeshsonarlab
       projectKey: rakeshworklab_sonarqube
       projectName: sonarqube
-- task: VSBuild@1
-  displayName: Build solution **\*.sln
+- task: DotNetCoreCLI@2
   inputs:
-      solution: $(BuildParameters.solution)
-      platform: $(BuildPlatform)
-      configuration: $(BuildConfiguration)
-- task: VSTest@2
-  displayName: VsTest - testAssemblies
+    command: 'build'
+    projects: '**\*.sln'
+    arguments: '--configuration $(BuildConfiguration)'
+- task: DotNetCoreCLI@2
   inputs:
-      testAssemblyVer2: >-
-        **\$(BuildConfiguration)\*test*.dll
-
-        !**\obj\**
-      codeCoverageEnabled: true
-      platform: $(BuildPlatform)
-      configuration: $(BuildConfiguration)
+    command: 'test'
+    projects: '**/*Tests/*.csproj'
+    arguments: '--configuration $(BuildConfiguration)'
 - task: SonarCloudAnalyze@1
   displayName: Run Code Analysis
 - task: SonarCloudPublish@1
