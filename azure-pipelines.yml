@@ -26,8 +26,10 @@ steps:
     SonarCloud: 'sonarcloudpractice'
     organization: 'rakeshsonarlab'
     scannerMode: 'MSBuild'
-    projectKey: 'rakeshworklab_rakeshsonar2'
+    projectKey: 'rakeshsonar2'
     projectName: 'rakeshsonar2'
+
+
 
 - task: VSBuild@1
   inputs:
@@ -48,3 +50,5 @@ steps:
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
+
+
