@@ -26,8 +26,8 @@ steps:
     SonarCloud: 'sonarcloudpractice'
     organization: 'rakeshsonarlab'
     scannerMode: 'MSBuild'
-    projectKey: 'rakeshworklab_sonarqube'
-    projectName: 'sonarqube'
+    projectKey: 'rakeshworklab_rakeshsonar2'
+    projectName: 'rakeshsonar2'
 
 - task: VSBuild@1
   inputs:
