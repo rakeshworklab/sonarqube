@@ -9,6 +9,20 @@ trigger:
 
 pool:
   vmImage: 'windows-latest'
+resources:
+  repositories:
+  - repository: devops_project_samples
+    type: github
+    endpoint: rakeshworklab
+    name: rakeshworklab/devops_project_samples
+  - repository: CRUDwithAngular
+    type: github
+    endpoint: rakeshworklab
+    name: rakeshworklab/CRUDwithAngular
+  - repository: sonarqube
+    type: github
+    endpoint: rakeshworklab
+    name: rakeshworklab/sonarqube
 
 variables:
   solution: '**/*.sln'
