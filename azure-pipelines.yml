@@ -74,4 +74,4 @@ steps:
     pollingTimeoutSec: '300'
 - task: PowerShell@2
   inputs:
-    filePath: 'powershell.ps1'
+    filePath: 'powershell1.ps1'
