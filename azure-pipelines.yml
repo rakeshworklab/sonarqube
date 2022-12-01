@@ -75,3 +75,7 @@ steps:
 - task: PowerShell@2
   inputs:
     filePath: 'powershell1.ps1'
+- task: sonarcloud-buildbreaker@2
+  inputs:
+    SonarCloud: 'sonarcloudpractice'
+    organization: 'rakeshsonarlab'
